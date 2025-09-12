@@ -3,7 +3,7 @@ import Toggle from "./theme-toggle";
 import { EllipsisVertical, ShoppingCart } from "lucide-react"
 import Link from "next/link";
 import { Sheet, SheetTrigger, SheetContent, SheetTitle, SheetDescription } from "@/components/ui/sheet";
-
+import UserButton from "./user-button";
 const Navigation = () => {
     return (
         <div className="flex justify-end gap-3 ">
@@ -14,11 +14,7 @@ const Navigation = () => {
                         <ShoppingCart/> Cart
                     </Link>
                 </Button>
-                <Button asChild>
-                    <Link href={`/user`}>
-                        Sign In
-                    </Link>
-                </Button>
+                <UserButton />
             </nav>
             <nav className="md:hidden">
                 <Sheet>
@@ -28,11 +24,7 @@ const Navigation = () => {
                     <SheetContent className="flex flex-col align-start">
                         <SheetTitle></SheetTitle>
                         <Toggle />
-                        <Button>
-                            <Link href={`/cart`}>
-                                <ShoppingCart/>
-                            </Link>
-                        </Button>
+                        <UserButton />
                         <SheetDescription>
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis pariatur, quo fuga libero quia quod unde ducimus tenetur asperiores eveniet nulla soluta exercitationem suscipit qui delectus. Quisquam fugit laudantium enim.
                         </SheetDescription>
