@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 import { SIGNIN_DEFAULTS } from "@/lib/constants";
 import { signInUser } from "@/lib/actions/user.actions";
 import { useActionState } from "react";
@@ -38,7 +39,7 @@ const SignInForm = () => {
                         type='email'
                         autoComplete='email'
                         required
-                        defaultValue={SIGNIN_DEFAULTS.email}
+                        defaultValue={ data.email || SIGNIN_DEFAULTS.email }
                         className="mt-1 w-full"
                     />
                 </div>
@@ -58,9 +59,14 @@ const SignInForm = () => {
                 {data.message != '' && data.success === false && (
                     <Alert variant="destructive">
                     <AlertCircle />
-                    <AlertTitle>{data.message}</AlertTitle>
-                    <AlertDescription>
-                        Something went wrong, please try again.
+                    <AlertTitle className="font-bold">Something went wrong, please try again.</AlertTitle>
+                        <AlertDescription>
+                            <Badge variant={`outline`} className="px-4 mt-4">Hints:</Badge>
+                            {
+                                data.message.split('\n').map((line, idx) => (
+                                    <div className="odd:font-bold even:border-1 even:border-amber-300 even:px-4 even:rounded-full" key={idx}>{line}</div>
+                                ))
+                            }
                     </AlertDescription>
                     </Alert>
                 )}

@@ -1,13 +1,13 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+	return twMerge(clsx(inputs));
 }
 
 // Convert Prisma Object into Js Object
-export function convertToPlainObject<T>(value: T): T{
-  return JSON.parse(JSON.stringify(value));
+export function convertToPlainObject<T>(value: T): T {
+	return JSON.parse(JSON.stringify(value));
 }
 
 // Format Number with decimal places
@@ -20,17 +20,30 @@ export function formatNumberWithDecimal(value: number): string {
 
 // Format Date to readable format
 export function formatDate(date: Date): string {
-  return new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: '2-digit'
-  }).format(new Date(date));
+	return new Intl.DateTimeFormat("en-US", {
+		year: "numeric",
+		month: "long",
+		day: "2-digit",
+	}).format(new Date(date));
 }
 
 // Format Currency
-export function formatCurrency(value: number, locale: string = 'en-US', currency: string = 'USD'): string {
-  return new Intl.NumberFormat(locale, {
-    style: 'currency',
-    currency: currency
-  }).format(value);
+export function formatCurrency(
+	value: number,
+	locale: string = "en-US",
+	currency: string = "USD"
+): string {
+	return new Intl.NumberFormat(locale, {
+		style: "currency",
+		currency: currency,
+	}).format(value);
+}
+
+// Round number to decimal places
+export function round2Dec(value: number | string) {
+	if (typeof value === 'number') {
+		return Math.round((value + Number.EPSILON) * 100) / 100;
+	} else if (typeof value === 'string') {
+		return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
+	}
 }

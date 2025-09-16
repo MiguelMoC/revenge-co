@@ -9,22 +9,21 @@ import { useFormStatus } from "react-dom";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import { Badge } from "@/components/ui/badge";
 
 const SignUpForm = () => {
     const [data, action] = useActionState(signUpUser, {
-        success: false, message: '',
+        success: false, message: '', 
     });
 
     const searchParams = useSearchParams();
     const callbackURL = searchParams.get('callbackUrl') || '/';
 
     const SignInButton = () => {
-        const { pending } = useFormStatus();
-        
-        return <Button disabled={ pending } className="w-full">
-                { pending ? 'Creating Account...' : 'Sign Up' }
+        const status = useFormStatus();        
+        return <Button disabled={ status.pending } className="w-full">
+                { status.pending ? 'Creating Account...' : 'Sign Up' }
             </Button>
-        
     }
     return ( 
         <form action={action}
@@ -38,8 +37,7 @@ const SignUpForm = () => {
                         name='name'
                         type='text'
                         autoComplete='name'
-                        required
-                        defaultValue={SIGN_UP_DEFAULTS.email}
+                        defaultValue={SIGN_UP_DEFAULTS.name || data.name }
                         className="mt-1 w-full"
                     />
                 </div>
@@ -50,8 +48,7 @@ const SignUpForm = () => {
                         name='email'
                         type='email'
                         autoComplete='email'
-                        required
-                        defaultValue={SIGN_UP_DEFAULTS.email}
+                        defaultValue={SIGN_UP_DEFAULTS.email || data.email}
                         className="mt-1 w-full"
                     />
                 </div>
@@ -62,7 +59,6 @@ const SignUpForm = () => {
                         name='password'
                         type='password'
                         autoComplete='password'
-                        required
                         defaultValue={SIGN_UP_DEFAULTS.password}
                         className="mt-1 w-full"
                     />
@@ -73,7 +69,6 @@ const SignUpForm = () => {
                         name='confirmPassword'
                         type='password'
                         autoComplete='confirmPassword'
-                        required
                         defaultValue={SIGN_UP_DEFAULTS.password}
                         className="mt-1 w-full"
                     />
@@ -82,9 +77,14 @@ const SignUpForm = () => {
                 {data.message != '' && data.success === false && (
                     <Alert variant="destructive">
                     <AlertCircle />
-                    <AlertTitle>{data.message}</AlertTitle>
-                    <AlertDescription>
-                        Something went wrong, please try again.
+                    <AlertTitle className="font-bold">Something went wrong, please try again.</AlertTitle>
+                        <AlertDescription>
+                            <Badge variant={`outline`} className="px-4 mt-4">Hints:</Badge>
+                            {
+                                data.message.split('\n').map((line, idx) => (
+                                    <div className="odd:font-bold even:border-1 even:border-amber-300 even:px-4 even:rounded-full" key={idx}>{line}</div>
+                                ))
+                            }
                     </AlertDescription>
                     </Alert>
                 )}
