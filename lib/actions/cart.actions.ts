@@ -40,7 +40,7 @@ export async function addItemToCart(data: CartItem) {
 
 		// Get Cart
 		const cart = await getMyCart();
-		console.log("🚀 ~ addItemToCart ~ cart:", cart)
+		console.log("🚀 ~ addItemToCart ~ cart:", cart);
 
 		// Parse and selected validate Item
 		const item = cartItemSchema.parse(data);
@@ -73,24 +73,23 @@ export async function addItemToCart(data: CartItem) {
 				success: true,
 				message: `Listo, ${product.name}, agregado!`,
 			};
-		} else {        
+		} else {
 			// Check if Icon is already in the cart
 			const existItem = (cart.items as CartItem[]).find(
 				(x) => x.productId === item.productId
-            );
-            
-			if (existItem) {
+			);
 
+			if (existItem) {
 				//Check Stock
 				if (product.stock < existItem.qty + 1) {
 					throw new Error("Not Enough stock");
 				}
 
 				//Increase Qty
-				(cart.items as CartItem[]).find((x) => x.productId === item.productId)!.qty = existItem.qty + 1;
-				
+				(cart.items as CartItem[]).find(
+					(x) => x.productId === item.productId
+				)!.qty = existItem.qty + 1;
 			} else {
-
 				// check stock
 				if (product.stock < 1) throw new Error("Not Enough Stock");
 				//Add Item to the cart.items
@@ -106,12 +105,12 @@ export async function addItemToCart(data: CartItem) {
 					...calcPrice(cart.items as unknown as CartItem[]),
 				},
 			});
-            revalidatePath('/product/${product.slug}');
+			revalidatePath("/product/${product.slug}");
 
-            return {
-                success: true,
-                message: `${product.name} ${existItem ? 'update in' : 'added to carts'}`
-            }
+			return {
+				success: true,
+				message: `${product.name} ${existItem ? "update in" : "added to cart"}`,
+			};
 		}
 	} catch (error) {
 		return {
