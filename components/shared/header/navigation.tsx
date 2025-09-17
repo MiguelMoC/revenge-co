@@ -4,6 +4,8 @@ import { EllipsisVertical, ShoppingCart } from "lucide-react"
 import Link from "next/link";
 import { Sheet, SheetTrigger, SheetContent, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import UserButton from "./user-button";
+import { toast } from "sonner";
+
 const Navigation = () => {
     return (
         <div className="flex justify-end gap-3 ">

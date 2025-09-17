@@ -28,16 +28,16 @@ export function formatDate(date: Date): string {
 }
 
 // Format Currency
-export function formatCurrency(
-	value: number,
-	locale: string = "en-US",
-	currency: string = "USD"
-): string {
-	return new Intl.NumberFormat(locale, {
-		style: "currency",
-		currency: currency,
-	}).format(value);
-}
+// export function formatCurrency(
+// 	value: number,
+// 	locale: string = "en-US",
+// 	currency: string = "USD"
+// ): string {
+// 	return new Intl.NumberFormat(locale, {
+// 		style: "currency",
+// 		currency: currency,
+// 	}).format(value);
+// }
 
 // Round number to decimal places
 export function round2Dec(value: number | string) {
@@ -45,5 +45,21 @@ export function round2Dec(value: number | string) {
 		return Math.round((value + Number.EPSILON) * 100) / 100;
 	} else if (typeof value === 'string') {
 		return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
+	}
+}
+
+const CURRENCY_FORMATTER = new Intl.NumberFormat('EN-US', {
+	currency: "USD",
+	style: "currency",
+	minimumFractionDigits: 2,
+});
+
+export function formatCurrency(amount: number | string | null) {
+	if (typeof amount === 'number') {
+		return CURRENCY_FORMATTER.format(amount);
+	} else if (typeof amount === 'string') {
+		return CURRENCY_FORMATTER.format(Number(amount));
+	} else {
+		return NaN;
 	}
 }

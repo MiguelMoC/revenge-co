@@ -7,10 +7,11 @@ import { Product as ProductType } from "@/types";
 
 const ProductCard = ({product}: {product: ProductType}) => {
     return ( 
-        <Card className="w-full max-w-sm">
+        <Card className="w-full max-w-sm pt-0">
             <CardHeader className="p-0 items-center">
                 <Link href={`/product/${product.slug}`}>
                     <Image
+                        className="w-full h-64 object-cover rounded-t-xl"
                         src={product.images[0]}
                         alt={product.name}
                         height={300}
