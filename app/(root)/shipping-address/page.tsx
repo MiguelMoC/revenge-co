@@ -18,11 +18,14 @@ const ShippingAddressPage = async () => {
     const userId = session?.user?.id
     if (!userId) throw new Error('No user ID')
     
-    const user = await getUserById(userId);
+    const user = async (id: string) => {
+        const u = await getUserById(id);
+        return u
+    };
     
     return (<>
     <CheckoutSteps current={1}/>
-    <ShippingAddressForm address={user?.address as ShippingAddress}/>
+    <ShippingAddressForm address={user(userId) as unknown as ShippingAddress}/>
     </>);
 }
  
